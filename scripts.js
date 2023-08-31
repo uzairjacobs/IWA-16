@@ -1,12 +1,15 @@
-// Constants for month names
+
 const MONTHS = [
   'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
 ];
 
-// Sample athlete data
+
 const data = {
   response: {
+    requestType: "FETCH_ATHLETE_DATA",
+    requestBy: "ALL_MATCHING_ATHLETES",
+    forDisplay: "BEST_RACES",
     data: {
       NM372: {
         firstName: "Nwabisa",
@@ -56,12 +59,12 @@ const createHtml = (athlete) => {
   const reversedRaces = races.reverse(); // creates a copy and reverses it to work with latest race data
   const latestRace = reversedRaces[0]; // Get the latest race data
   const [year, month, day] = latestRace.date.split('T')[0].split('-'); // splits it into an array then creates an array inside separated by year, month and date
-  const date = new Date(year, month - 1, day); //  creates a Date object using the extracted year, month, and day values
+  const date = new Date(year, month -1, day);
+  //  creates a Date object using the extracted year, month, and day values
   const [first, second, third, fourth] = latestRace.time; // destructure lap times from latest race object
   const total = first + second + third + fourth; // calculates total time 
   const hours = Math.floor(total / 60); // if less than 60 answer will be 0 as its less than an hour
   const minutes = total % 60; // % gives the remainder of a division
-
   const dayOfMonth = date.getDate();
   const monthName = MONTHS[date.getMonth()];
   const yearNumber = date.getFullYear();
@@ -90,9 +93,8 @@ const createHtml = (athlete) => {
 
   fragment.appendChild(list); // attaches it to the fragment
 
-  return fragment;
+  return fragment; // this holds the entire athlete section
 };
-
 const NM372Section = document.querySelector('[data-athlete="NM372"]'); // selecting HTML element where information will be displayed
 NM372Section.appendChild(createHtml(data.response.data.NM372)); // create html structure with details then attaches it to selected section
 
